@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/rest/user")
 public class UserController {
@@ -23,18 +21,30 @@ public class UserController {
     public User add(@PathVariable("id") final String id,
                     @PathVariable("name") final String name) {
         userRepository.save(new User(id, name, 20000L));
-        return userRepository.findById(id);
+        return userRepository.findById(id).orElseThrow();
     }
 
     @GetMapping("/update/{id}/{name}")
     public User update(@PathVariable("id") final String id,
                     @PathVariable("name") final String name) {
-        userRepository.update(new User(id, name, 1000L));
-        return userRepository.findById(id);
+        userRepository.save(new User(id, name, 1000L));
+        return userRepository.findById(id).orElseThrow();
+    }
+
+    @GetMapping("/delete/{id}")
+    public Iterable<User> delete(@PathVariable("id") final String id) {
+        userRepository.deleteById(id);
+        return findAll();
     }
 
     @GetMapping("/all")
-    public Map<String, User> findAll() {
+    public Iterable<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @GetMapping("/delete/all")
+    public Iterable<User> deleteAll() {
+        userRepository.deleteAll();
         return userRepository.findAll();
     }
 

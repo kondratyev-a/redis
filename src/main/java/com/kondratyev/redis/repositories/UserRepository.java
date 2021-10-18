@@ -1,14 +1,8 @@
 package com.kondratyev.redis.repositories;
 
 import com.kondratyev.redis.model.User;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.Map;
+public interface UserRepository extends CrudRepository<User, String> {
 
-public interface UserRepository {
-
-    void save (User user);
-    Map<String, User> findAll();
-    User findById(String id);
-    void update(User user);
-    void delete(String id);
 }

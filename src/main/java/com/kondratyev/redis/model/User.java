@@ -1,10 +1,12 @@
 package com.kondratyev.redis.model;
 
-import java.io.Serializable;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
-public class User implements Serializable {
+@RedisHash("USER")
+public class User {
 
-    private String id;
+    @Id String id;
     private String name;
     private Long salary;
 
